@@ -69,5 +69,5 @@ accounts := &struct{
 		Name string
 	} `json:"records"`
 }{}
-err := client.Query(builder.Build(, accounts))
+err := client.Query(builder.Build(), accounts)
 ```
