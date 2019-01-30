@@ -19,6 +19,18 @@ client := NewClient(EnvProduction, "44.0")
 client := NewClient(EnvStaging, "44.0")
 ```
 
+**Authentication**
+
+You have to call the `Auth()` method after you create a client
+```go
+err := client.Auth(Auth{
+	"Username",
+	"Password",
+	"ClientID",
+	"ClientSecret"
+})
+```
+
 **Retrieve a specific object**
 ```go
 account := &struct{
@@ -26,7 +38,7 @@ account := &struct{
 	Name,
 	Status
 }{}
-client.Find("Account", "0030x00000N1vJ0AAJ", account)
+err := client.Find("Account", "0030x00000N1vJ0AAJ", account)
 
 // account.Id == 0030x00000N1vJ0AAJ
 ```
@@ -35,5 +47,27 @@ client.Find("Account", "0030x00000N1vJ0AAJ", account)
 ```go
 params := &Params{}
 params.AddField("Name", "New name")
-client.Update("Account", "0030x00000N1vJ0AAJ", params)
+err := client.Update("Account", "0030x00000N1vJ0AAJ", params)
+```
+
+**Delete a specific object**
+```go
+err := client.Delete("Account", "0030x00000N1vJ0AAJ")
+```
+
+**Make a query**
+```go
+builder := &SoqlBuilder{}
+builder.Select("Id", "Name")
+builder.From("Account")
+builder.Where("Name='Test'")
+builder.Limit(1)
+
+accounts := &struct{
+	Records []struct{
+		Id string,
+		Name string
+	} `json:"records"`
+}{}
+err := client.Query(builder.Build(, accounts))
 ```
