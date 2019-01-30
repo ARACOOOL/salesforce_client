@@ -1,5 +1,7 @@
 # SalesForce REST API Golang client
 
+[![Build Status](https://travis-ci.org/ARACOOOL/salesforce_client.svg?branch=master)](https://travis-ci.org/ARACOOOL/salesforce_client)
+
 ## Installation
 ```bash
 go get github.com/aracoool/salesforce_client
