@@ -30,3 +30,10 @@ client.Find("Account", "0030x00000N1vJ0AAJ", account)
 
 // account.Id == 0030x00000N1vJ0AAJ
 ```
+
+**Update a specific object**
+```go
+params := &Params{}
+params.AddField("Name", "New name")
+client.Update("Account", "0030x00000N1vJ0AAJ", params)
+```
