@@ -21,7 +21,7 @@ func (t *TestServer) Setup() func() {
 	t.Mux = http.NewServeMux()
 	t.Server = httptest.NewServer(t.Mux)
 
-	t.Mux.HandleFunc("/services/data/v20.0/sobjects/Task/00T0x000005hOcYEAU", func(w http.ResponseWriter, r *http.Request) {
+	t.Mux.HandleFunc("/services/data/v44.0/sobjects/Task/00T0x000005hOcYEAU", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
@@ -34,7 +34,7 @@ func (t *TestServer) Setup() func() {
 		_, _ = w.Write(c)
 	})
 
-	t.Mux.HandleFunc("/services/data/v20.0/sobjects/Task", func(w http.ResponseWriter, r *http.Request) {
+	t.Mux.HandleFunc("/services/data/v44.0/sobjects/Task", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != "POST" {
 			w.WriteHeader(http.StatusBadRequest)
 			_, _ = w.Write([]byte(`[{"message": "Bad request", "errorCode": "BAD_REQUEST"}]`))
@@ -53,7 +53,7 @@ func (t *TestServer) Setup() func() {
 		_, _ = w.Write(c)
 	})
 
-	t.Client, _ = NewClient("stg", "v20.0")
+	t.Client, _ = NewClient("stg", "44.0")
 	t.Client.baseUrl = t.Server.URL
 
 	return func() {
@@ -67,13 +67,13 @@ func TestClientMethods_Find(t *testing.T) {
 	defer serverCloser()
 
 	obj := &struct {
-		ID     string `json:"Id"`
+		Id     string
 		Status string
 	}{}
 	_ = server.Client.Find("Task", "00T0x000005hOcYEAU", obj)
 
 	test := assert.New(t)
-	test.Equal("00T0x000005hOcYEAU", obj.ID)
+	test.Equal("00T0x000005hOcYEAU", obj.Id)
 	test.Equal("Completed", obj.Status)
 }
 
