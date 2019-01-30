@@ -21,7 +21,7 @@ client := NewClient(EnvStaging, "44.0")
 
 **Authentication**
 
-You have to call the `Auth()` method after you create a client
+You have to call the `Auth()` method after you created a client
 ```go
 err := client.Auth(Auth{
 	"Username",
